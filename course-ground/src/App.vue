@@ -1,28 +1,198 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <app-header />
+    <div class="main-content">
+      <not-found />
+    </div>
+    <app-footer />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import AppHeader from './components/core/Header'
+import AppFooter from './components/core/Footer'
+// import CoursesList from './components/courses/List'
+// import About from './components/static/About'
+// import Contact from './components/static/Contact'
+import NotFound from './components/static/Not-Found'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    AppHeader,
+    AppFooter,
+    // CoursesList,
+    // About,
+    // Contact,
+    NotFound
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  @import url('https://fonts.googleapis.com/css?family=Russo+One&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=Ubuntu:400,500,700&display=swap');
+
+  * {
+      box-sizing: border-box;
+  }
+  body {
+      margin: 0;
+      font-family: 'Ubuntu';
+  }
+  h1, h2, h3, h4, h5, h6 {
+      font-family: 'Russo One';
+  }
+  /* Colors and styles */
+  .green-color {
+      color: #00cd8c;
+  }
+  .green-back {
+      background-color: #00cd8c;
+  }
+  .green-border {
+      border-color: #00cd8c;
+  }
+  .purple-color {
+      color: #716ef9;
+  }
+  .purple-back {
+      background-color: #716ef9;
+  }
+  .purple-border {
+      border-color: #716ef9;
+  }
+  .gray-color {
+      color: #333;
+  }
+  .gray-back {
+      background-color: #333;
+  }
+  .gray-border {
+      border-color: #333;
+  }
+  .text-center {
+      text-align: center;
+  }
+  /* Common elements styles */
+  .main-content {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 40px 0;
+      min-height: calc(100vh - 195px);
+  }
+  .page-title {
+      color: #716ef9;
+      margin-top: 0;
+      margin-bottom: 40px;
+      font-size: 40px;
+      padding-left: 15px;
+  }
+  /* Forms */
+  .form-page {
+      text-align: center;
+  }
+  .form-page .page-title {
+      padding-left: 0;
+  }
+  .field-holder {
+      width: 500px;
+      margin: 0 auto 30px auto;
+      position: relative;
+  }
+  .field-holder label {
+      display: block;
+      font-family: 'Russo One';
+      color: #333;
+      font-size: 24px;
+      margin-bottom: 20px;
+  }
+  .field-holder input,
+  .field-holder textarea {
+      display: block;
+      width: 100%;
+      border: 0;
+      text-align: center;
+      background: #FFF;
+      padding: 15px 20px;
+      border-radius: 40px;
+      font-family: 'Ubuntu';
+      font-size: 20px;
+      color: #333;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  }
+  .field-holder textarea {
+      height: 250px;
+      text-align: left;
+  }
+  .field-holder input.ng-invalid.ng-touched,
+  .field-holder textarea.ng-invalid.ng-touched {
+      box-shadow: 0 0 10px #eb3333;
+  }
+  .field-holder input:focus,
+  .field-holder textarea:focus {
+      outline: none;
+  }
+  .input-error {
+      background: #eb3333;
+      color: #FFF;
+      padding: 10px 20px;
+      border-radius: 20px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: max-content;
+      bottom: -30px;
+  }
+  .input-error:not(:first-of-type) {
+      display: none;
+  }
+  .input-error:before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: calc(50% - 12px);
+      width: 0;
+      height: 0;
+      border-left: 12px solid transparent;
+      border-right: 12px solid transparent;
+      border-bottom: 8px solid #eb3333;
+      border-top: 0;
+      clear: both;
+
+  }
+  .submit-btn-holder button {
+      background: #00cd8c;
+      color: #FFF;
+      border: 2px solid #00cd8c;
+      padding: 15px 60px;
+      border-radius: 40px;
+      margin-top: 30px;
+      margin-bottom: 50px;
+      font-family: 'Russo One';
+      font-size: 24px;
+      cursor: pointer;
+  }
+  .submit-btn-holder button:hover:not(:disabled) {
+      background: #FFF;
+      color: #00cd8c;
+  }
+  .submit-btn-holder button:focus {
+      outline: none;
+  }
+  .submit-btn-holder button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+  }
+  .uploadcare--widget__button_type_open {
+      background: #00cd8c !important;
+      color: #fff !important;
+      font-size: 20px !important;
+      border: 2px solid #00cd8c;
+      cursor: pointer;
+  }
+  .uploadcare--widget__button_type_open:hover {
+      background: #FFF !important;
+      color: #00cd8c !important;
+  }
 </style>
