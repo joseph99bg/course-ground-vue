@@ -2,7 +2,7 @@
   <div id="app">
     <app-header />
     <div class="main-content">
-      <not-found />
+      <add-course />
     </div>
     <app-footer />
   </div>
@@ -12,9 +12,12 @@
 import AppHeader from './components/core/Header'
 import AppFooter from './components/core/Footer'
 // import CoursesList from './components/courses/List'
+import AddCourse from './components/courses/AddCourse'
 // import About from './components/static/About'
 // import Contact from './components/static/Contact'
-import NotFound from './components/static/Not-Found'
+// import NotFound from './components/static/Not-Found'
+// import Login from './components/user/Login'
+// import Register from './components/user/Register'
 
 export default {
   name: 'App',
@@ -22,9 +25,12 @@ export default {
     AppHeader,
     AppFooter,
     // CoursesList,
+    AddCourse,
     // About,
     // Contact,
-    NotFound
+    // NotFound,
+    // Login,
+    // Register
   }
 }
 </script>
