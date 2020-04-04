@@ -28,9 +28,10 @@
 <script>
 import { validationMixin } from 'vuelidate'
 import { required, minLength } from 'vuelidate/lib/validators'
+import authMixin from '../../mixins/auth'
 
 export default {
-  mixins: [validationMixin],
+  mixins: [validationMixin, authMixin],
   data: function() {
     return {
       username: null,
@@ -39,8 +40,8 @@ export default {
   },
   methods: {
     loginHandler() {
-      console.log(`Username: ${this.username}`);
-      console.log(`Password: ${this.password}`);
+      this.login(this.username, this.password)
+      this.$router.push('/')
     }
   },
   validations: {

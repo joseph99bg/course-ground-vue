@@ -1,15 +1,16 @@
 <template>
   <div class="course-list-page">
     <h1 class="page-title">Courses</h1>
-    <div class="courses-list">
-      <div class="course-item">
-        <img src="https://i.morioh.com/ba23cdfe71.png">
+    <loader v-if="!courses"/>
+    <div class="courses-list" v-if="courses">
+      <div class="course-item" v-for="course in courses" :key="course._id">
+        <img :src="course.image">
         <div class="course-info">
-          <h4 class="green-color">JS Course</h4>
+          <h4 class="green-color">{{course.title}}</h4>
           <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+            {{course.description}}
           </p>
-          <a class="green-border green-color">Details</a>
+          <router-link class="green-border green-color" :to="`/course/${course._id}`">Details</router-link>
         </div>
       </div>
     </div>
@@ -17,8 +18,29 @@
 </template>
 
 <script>
+import axios from 'axios'
+import Loader from '../core/Loader'
+
 export default {
-  
+  data() {
+    return {
+      courses: null
+    }
+  },
+  components: {
+    Loader
+  },
+  methods: {
+    loadCourses() {
+      axios.get('http://localhost:3000/api/course').then(res => {
+        this.courses = res.data;
+        console.log(res.data);
+      })
+    }
+  },
+  created() {
+    this.loadCourses()
+  }
 }
 </script>
 

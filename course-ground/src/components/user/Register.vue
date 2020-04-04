@@ -44,6 +44,7 @@
 <script>
 import { validationMixin } from 'vuelidate'
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
+import axios from 'axios'
 
 export default {
   mixins: [validationMixin],
@@ -57,10 +58,15 @@ export default {
   },
   methods: {
     registerHandler() {
-      console.log(`Username: ${this.username}`);
-      console.log(`Email: ${this.email}`);
-      console.log(`Password: ${this.password}`);
-      console.log(`Confirm Password: ${this.confirmPassword}`);
+      const user = {
+        username: this.username,
+        email: this.email,
+        password: this.password
+      }
+      axios.post('http://localhost:3000/api/user/register', user)
+        .then(res => {
+          console.log(res);
+        })
     }
   },
   validations: {

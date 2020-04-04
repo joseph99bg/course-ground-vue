@@ -1,24 +1,54 @@
 <template>
-  <!-- <app-loader *ngIf="!course && !error"></app-loader> -->
-  <!-- <div class="course-details" *ngIf="course"> -->
-  <div class="course-details">
-    <img :src="course.image" alt="">
-    <div class="course-text">
-      <h1>{{course.title}}</h1>
-      <p>{{course.description}}</p>
-      <!-- <a class="enroll-course" *ngIf="!courseEnrolled && !myCourse && isLogged" (click)="enrollCourse(course._id)">Enroll</a> -->
-      <!-- <span class="already-enrolled" *ngIf="courseEnrolled">You are enrolled to this course</span> -->
-      <!-- <span class="already-enrolled" *ngIf="!isLogged">Please log in to enroll a course!</span> -->
+  <div>
+    <loader v-if="!course && !error" />
+    <div class="course-details" v-if="course">
+      <img :src="course.image" alt="">
+      <div class="course-text">
+        <h1>{{course.title}}</h1>
+        <p>{{course.description}}</p>
+        <!-- <a class="enroll-course" *ngIf="!courseEnrolled && !myCourse && isLogged" (click)="enrollCourse(course._id)">Enroll</a> -->
+        <!-- <span class="already-enrolled" *ngIf="courseEnrolled">You are enrolled to this course</span> -->
+        <!-- <span class="already-enrolled" *ngIf="!isLogged">Please log in to enroll a course!</span> -->
+      </div>
+    </div>
+    <div class="course-error" v-if="error">
+      <h2 class="course-error purple-color">No such course!</h2>
     </div>
   </div>
-  <!-- <div class="course-error" *ngIf="error">
-    <h2 class="course-error purple-color">No such course!</h2>
-  </div> -->
 </template>
 
 <script>
+import axios from 'axios'
+import Loader from '../core/Loader'
+
 export default {
-  
+  data() {
+    return {
+      courseId: this.$route.params.id,
+      course: null,
+      error: null
+    }
+  },
+  components: {
+    Loader
+  },
+  methods: {
+    loadCourse() {
+      console.log(this.courseId);
+      
+      axios.get(`http://localhost:3000/api/course/${this.courseId}`)
+        .then(res => {
+          this.course = res.data;
+          console.log(res.data);
+        })
+        .catch(err => {
+          this.error = err
+        })
+    }
+  },
+  created() {
+    this.loadCourse()
+  }
 }
 </script>
 

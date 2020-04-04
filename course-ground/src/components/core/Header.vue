@@ -3,10 +3,10 @@
     <div class="top-bar green-back">
       <ul class="top-nav">
         <li>
-          <a>Login</a>
+          <router-link to="/login">Login</router-link>
         </li>
         <li>
-          <a>Register</a>
+          <router-link to="/register">Register</router-link>
         </li>
         <li>
           <a @click="logout()">Logout</a>
@@ -15,17 +15,17 @@
     </div>
     <div class="main-header">
       <div class="logo-holder">
-        <a>
+        <router-link to="/">
           <img src="@/assets/logo.png" alt="Course Ground">
-        </a>
+        </router-link>
       </div>
       <div class="navigation">
         <ul class="nav">
           <li>
-            <a>Home</a>
+            <router-link to="/">Home</router-link>
           </li>
           <li>
-            <a>About</a>
+            <router-link to="/about">About</router-link>
           </li>
           <li>
             <a>My Courses</a>
@@ -34,10 +34,10 @@
             <a>Courses Enrolled</a>
           </li>
           <li>
-            <a>Add Course</a>
+            <router-link to="/add-course">Add Course</router-link>
           </li>
           <li>
-            <a>Contact</a>
+            <router-link to="/contact">Contact</router-link>
           </li>
         </ul>
       </div>
