@@ -1,7 +1,7 @@
 <template>
   <div class="form-page">
-    <h1 class="page-title">Add Course</h1>
-    <form @submit.prevent="addCourseHandler()">
+    <h1 class="page-title">Edit Course</h1>
+    <form @submit.prevent="editCourseHandler()">
       <div class="field-holder">
         <label for="title" class="grey-color">Title</label>
         <input type="text" v-model="title" name="title" id="title" @input="$v.title.$touch()" />
@@ -29,7 +29,7 @@
         </ngx-uploadcare-widget> -->
       </div>
       <div class="submit-btn-holder">
-        <button :disabled="$v.$invalid">Add Course</button>
+        <button :disabled="$v.$invalid">Edit Course</button>
       </div>
     </form>
   </div>
@@ -44,26 +44,26 @@ export default {
   mixins: [validationMixin],
   data: function() {
     return {
+      courseId: this.$route.params.id,
       title: null,
       description: null,
       image: null
     }
   },
   methods: {
-    addCourseHandler() {
+    editCourseHandler() {
       let course = {
         title: this.title,
         description: this.description,
         image: this.image
       }
-      axios('http://localhost:3000/api/course/create', {
-        method: "post",
+      axios(`http://localhost:3000/api/course/edit/${this.courseId}`, {
+        method: "put",
         data: course,
         withCredentials: true
       })
-        .then(res => {
-          this.$router.push('/');
-          console.log(res);
+        .then(() => {
+          this.$router.push('/my-courses');
         });
     }
   },
@@ -76,6 +76,17 @@ export default {
       required,
       minLength: minLength(10)
     }
+  },
+  created() {
+    axios(`http://localhost:3000/api/course/${this.courseId}`, {
+      method: "get",
+      withCredentials: true
+    })
+      .then(res => {
+        this.title = res.data.title,
+        this.description = res.data.description,
+        this.image = res.data.image
+      })
   }
 }
 </script>

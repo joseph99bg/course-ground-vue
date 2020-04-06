@@ -4,7 +4,7 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      isLogged: false
+      currentUser: localStorage.getItem('current-user')
     }
   },
   methods: {
@@ -19,12 +19,26 @@ export default {
         withCredentials: true
       })
         .then(res => {
-          console.log(res);
-          this.isLogged = true
+          this.currentUser = res.data.username;
+          localStorage.setItem('current-user', res.data.username);
+          localStorage.setItem('current-user-id', res.data._id);
         })
     },
     logout() {
-
+      axios('http://localhost:3000/api/user/logout', {
+        method: "post",
+        withCredentials: true
+      })
+        .then(() => {
+          this.currentUser = null;
+          localStorage.removeItem('current-user');
+          localStorage.removeItem('current-user-id');
+        })
+    }
+  },
+  computed: {
+    isLogged() {
+      return !!this.currentUser
     }
   }
 }

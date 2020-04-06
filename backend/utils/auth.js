@@ -11,7 +11,7 @@ module.exports = (redirectAuthenticated = true) => {
             models.TokenBlacklist.findOne({ token })
         ])
             .then(([data, blacklistToken]) => {
-                if (blacklistToken) { return Promise.reject(new Error('blacklisted token')) }
+                // if (blacklistToken) { return Promise.reject(new Error('blacklisted token')) }
 
                 models.User.findById(data.id)
                     .then((user) => {

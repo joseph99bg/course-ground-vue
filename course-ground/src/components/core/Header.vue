@@ -9,7 +9,7 @@
           <router-link to="/register">Register</router-link>
         </li>
         <li>
-          <a @click="logout()">Logout</a>
+          <a @click="logoutHandler()">Logout</a>
         </li>
       </ul>
     </div>
@@ -28,10 +28,10 @@
             <router-link to="/about">About</router-link>
           </li>
           <li>
-            <a>My Courses</a>
+            <router-link to="/my-courses">My Courses</router-link>
           </li>
           <li>
-            <a>Courses Enrolled</a>
+            <router-link to="/courses-enrolled">Courses Enrolled</router-link>
           </li>
           <li>
             <router-link to="/add-course">Add Course</router-link>
@@ -46,16 +46,20 @@
 </template>
 
 <script>
+import authMixin from '../../mixins/auth'
+
 export default {
   name: 'Header',
+  mixins: [authMixin],
   data: function() {
     return {
       
     }
   },
   methods: {
-    logout() {
-      console.log('Logout Works!');
+    logoutHandler() {
+      this.logout();
+      this.$router.push('/')
     }
   }
 }

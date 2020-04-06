@@ -1,7 +1,10 @@
 <template>
   <div class="course-list-page">
-    <h1 class="page-title">Courses</h1>
-    <loader v-if="!courses"/>
+    <h1 class="page-title" v-if="!myCourses && !coursesEnrolled">Courses</h1>
+    <h1 class="page-title" v-if="myCourses">My Courses</h1>
+    <h1 class="page-title" v-if="coursesEnrolled">Courses Enrolled</h1>
+    <h3 class="purple-color" v-if="!hasCourses">No courses</h3>
+    <loader v-if="!courses && hasCourses"/>
     <div class="courses-list" v-if="courses">
       <div class="course-item" v-for="course in courses" :key="course._id">
         <img :src="course.image">
@@ -11,6 +14,12 @@
             {{course.description}}
           </p>
           <router-link class="green-border green-color" :to="`/course/${course._id}`">Details</router-link>
+          <button class="delete-btn" v-if="myCourses" @click="deleteCourse(course._id)">
+            <font-awesome-icon icon="trash-alt" />
+          </button>
+          <router-link tag="button" class="edit-btn" v-if="myCourses" :to="`/course/edit/${course._id}`">
+            <font-awesome-icon icon="edit" />
+          </router-link>
         </div>
       </div>
     </div>
@@ -22,9 +31,20 @@ import axios from 'axios'
 import Loader from '../core/Loader'
 
 export default {
+  props: {
+    myCourses: {
+      type: Boolean,
+      default: false
+    },
+    coursesEnrolled: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
-      courses: null
+      courses: null,
+      hasCourses: true
     }
   },
   components: {
@@ -32,10 +52,49 @@ export default {
   },
   methods: {
     loadCourses() {
-      axios.get('http://localhost:3000/api/course').then(res => {
-        this.courses = res.data;
-        console.log(res.data);
+      this.hasCourses = true
+      if (this.myCourses) {
+        axios('http://localhost:3000/api/course/my-posts', {
+          method: "get",
+          withCredentials: true
+        }).then(res => {
+          if (res.data.length === 0) {
+            this.hasCourses = false;
+          } else {
+            this.courses = res.data;
+          }
+        });
+      } else if (this.coursesEnrolled) {
+        axios('http://localhost:3000/api/course/enrolled', {
+          method: "get",
+          withCredentials: true
+        }).then(res => {
+          if (res.data.length === 0) {
+            this.hasCourses = false;
+          } else {
+            this.courses = res.data;
+          }
+        });
+      } else {
+        axios.get('http://localhost:3000/api/course').then(res => {
+          this.courses = res.data;
+        });
+      }
+    },
+    deleteCourse(courseId) {
+      axios(`http://localhost:3000/api/course/delete/${courseId}`, {
+        method: "delete",
+        withCredentials: true
+      }).then(() => {
+        this.courses = null
+        this.loadCourses()
       })
+    }
+  },
+  watch: {
+    '$route'() {
+      this.courses = null
+      this.loadCourses()
     }
   },
   created() {
