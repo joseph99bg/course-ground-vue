@@ -2,13 +2,13 @@
   <header>
     <div class="top-bar green-back">
       <ul class="top-nav">
-        <li>
+        <li v-if="!isLogged">
           <router-link to="/login">Login</router-link>
         </li>
-        <li>
+        <li v-if="!isLogged">
           <router-link to="/register">Register</router-link>
         </li>
-        <li>
+        <li v-if="isLogged">
           <a @click="logoutHandler()">Logout</a>
         </li>
       </ul>
@@ -27,13 +27,13 @@
           <li>
             <router-link to="/about">About</router-link>
           </li>
-          <li>
+          <li v-if="isLogged">
             <router-link to="/my-courses">My Courses</router-link>
           </li>
-          <li>
+          <li v-if="isLogged">
             <router-link to="/courses-enrolled">Courses Enrolled</router-link>
           </li>
-          <li>
+          <li v-if="isLogged">
             <router-link to="/add-course">Add Course</router-link>
           </li>
           <li>
@@ -47,6 +47,7 @@
 
 <script>
 import authMixin from '../../mixins/auth'
+import authStore from '../../store/auth.js'
 
 export default {
   name: 'Header',
@@ -60,6 +61,11 @@ export default {
     logoutHandler() {
       this.logout();
       this.$router.push('/')
+    }
+  },
+  computed: {
+    isLogged() {
+      return !!authStore.user;
     }
   }
 }
@@ -85,7 +91,7 @@ export default {
       text-decoration: none;
       cursor: pointer;
   }
-  .top-nav li a.active {
+  .top-nav li a.router-link-active {
       color: #333;
   }
   .top-nav li a:hover {
@@ -127,7 +133,7 @@ export default {
       border: 2px solid #FFF;
   }
   ul.nav li a:hover,
-  ul.nav li a.active {
+  ul.nav li a.router-link-exact-active {
       color: #00cd8c;
       border-bottom: 2px solid #00cd8c;
   }

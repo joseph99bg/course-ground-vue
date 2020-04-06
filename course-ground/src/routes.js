@@ -4,9 +4,11 @@ import EditCourse from './components/courses/EditCourse'
 import courseDetails from './components/courses/Details'
 import About from './components/static/About'
 import Contact from './components/static/Contact'
-// import NotFound from './components/static/Not-Found'
+import NotFound from './components/static/Not-Found'
 import Login from './components/user/Login'
 import Register from './components/user/Register'
+
+import authStore from './store/auth'
 
 export default [
   {
@@ -18,6 +20,13 @@ export default [
     component: CoursesList,
     props: {
       myCourses: true
+    },
+    beforeEnter: (to, from, next) => {
+      if (!authStore.user) {
+        next('/login');
+      } else {
+        next();
+      }
     }
   },
   {
@@ -25,11 +34,25 @@ export default [
     component: CoursesList,
     props: {
       coursesEnrolled: true
+    },
+    beforeEnter: (to, from, next) => {
+      if (!authStore.user) {
+        next('/login');
+      } else {
+        next();
+      }
     }
   },
   {
     path: '/course/edit/:id',
-    component: EditCourse
+    component: EditCourse,
+    beforeEnter: (to, from, next) => {
+      if (!authStore.user) {
+        next('/login');
+      } else {
+        next();
+      }
+    }
   },
   {
     path: '/course/:id',
@@ -37,7 +60,14 @@ export default [
   },
   {
     path: '/add-course',
-    component: AddCourse
+    component: AddCourse,
+    beforeEnter: (to, from, next) => {
+      if (!authStore.user) {
+        next('/login');
+      } else {
+        next();
+      }
+    }
   },
   {
     path: '/about',
@@ -54,5 +84,9 @@ export default [
   {
     path: '/register',
     component: Register
+  },
+  {
+    path: '*',
+    component: NotFound
   }
 ]

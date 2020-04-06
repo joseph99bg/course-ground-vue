@@ -23,10 +23,10 @@
       </div>
       <div class="field-holder">
         <label for="image" class="grey-color">Image</label>
-        <input type="text" v-model="image" name="image" id="image" required />
-        <!-- <ngx-uploadcare-widget (on-upload-complete)="imageUploadHandler($event)" images-only="true"
-          public-key="2b9cee02e41f4b7b23fa">
-        </ngx-uploadcare-widget> -->
+        <img :src="image" class="uploaded-image" />
+        <uploadcare :publicKey="publicKey" @success="onSuccess($event)" @error="onError">
+          <button>Upload Image</button>
+        </uploadcare>
       </div>
       <div class="submit-btn-holder">
         <button :disabled="$v.$invalid">Edit Course</button>
@@ -39,15 +39,20 @@
 import { validationMixin } from 'vuelidate'
 import { required, minLength } from 'vuelidate/lib/validators'
 import axios from 'axios'
+import Uploadcare from 'uploadcare-vue'
 
 export default {
   mixins: [validationMixin],
+  components: {
+    Uploadcare
+  },
   data: function() {
     return {
       courseId: this.$route.params.id,
       title: null,
       description: null,
-      image: null
+      image: null,
+      publicKey: '64de00b7bda06691c47a'
     }
   },
   methods: {
@@ -65,6 +70,12 @@ export default {
         .then(() => {
           this.$router.push('/my-courses');
         });
+    },
+    onSuccess(event) {
+      this.image = event.cdnUrl;
+    },
+    onError() {
+      console.log('Error!');
     }
   },
   validations: {
@@ -92,5 +103,7 @@ export default {
 </script>
 
 <style scoped>
-
+  .uploaded-image {
+    max-width: 100%;
+  }
 </style>

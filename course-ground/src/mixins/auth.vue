@@ -1,5 +1,6 @@
 <script>
 import axios from 'axios'
+import authStore from '../store/auth.js'
 
 export default {
   data() {
@@ -22,6 +23,7 @@ export default {
           this.currentUser = res.data.username;
           localStorage.setItem('current-user', res.data.username);
           localStorage.setItem('current-user-id', res.data._id);
+          authStore.setUser(res.data.username)
         })
     },
     logout() {
@@ -33,6 +35,7 @@ export default {
           this.currentUser = null;
           localStorage.removeItem('current-user');
           localStorage.removeItem('current-user-id');
+          authStore.clearUser()
         })
     }
   },
