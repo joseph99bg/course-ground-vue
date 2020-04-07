@@ -64,8 +64,8 @@ export default {
         password: this.password
       }
       axios.post('http://localhost:3000/api/user/register', user)
-        .then(res => {
-          console.log(res);
+        .then(() => {
+          this.$router.push('/login')
         })
     }
   },

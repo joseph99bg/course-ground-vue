@@ -6,10 +6,9 @@
       <div class="course-text">
         <h1>{{course.title}}</h1>
         <p>{{course.description}}</p>
-        <!-- <a class="enroll-course" v-if="!courseEnrolled && !myCourse && isLogged" @click="enrollCourse(course._id)">Enroll</a> -->
-        <a class="enroll-course" v-if="!courseEnrolled && !myCourse" @click="enrollCourse(course._id)">Enroll</a>
+        <a class="enroll-course" v-if="!courseEnrolled && !myCourse && isLogged" @click="enrollCourse(course._id)">Enroll</a>
         <span class="already-enrolled" v-if="courseEnrolled">You are enrolled to this course</span>
-        <!-- <span class="already-enrolled" *ngIf="!isLogged">Please log in to enroll a course!</span> -->
+        <span class="already-enrolled" v-if="!isLogged">Please log in to enroll a course!</span>
       </div>
     </div>
     <div class="course-error" v-if="error">
@@ -21,6 +20,7 @@
 <script>
 import axios from 'axios'
 import Loader from '../core/Loader'
+import authStore from '../../store/auth.js'
 
 export default {
   data() {
@@ -29,7 +29,8 @@ export default {
       course: null,
       courseEnrolled: false,
       myCourse: false,
-      error: null
+      error: null,
+      isLogged: !!authStore.user
     }
   },
   components: {
@@ -37,19 +38,15 @@ export default {
   },
   methods: {
     loadCourse() {
-      console.log(this.courseId);
-      
       axios.get(`http://localhost:3000/api/course/${this.courseId}`)
         .then(res => {
           this.course = res.data;
-          console.log(res);
-          
           if (localStorage.getItem('current-user-id')) {
             const userId = localStorage.getItem('current-user-id');
             if (res.data.users.find(x => x === userId)) {
               this.courseEnrolled = true;
             }
-            if (res.author === userId) {
+            if (res.data.author === userId) {
               this.myCourse = true;
             }
           }

@@ -23,7 +23,7 @@ export default {
           this.currentUser = res.data.username;
           localStorage.setItem('current-user', res.data.username);
           localStorage.setItem('current-user-id', res.data._id);
-          authStore.setUser(res.data.username)
+          authStore.setUser(res.data.username, res.data._id)
         })
     },
     logout() {

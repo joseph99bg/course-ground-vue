@@ -2,7 +2,7 @@
   <div class="error-page text-center">
     <h1 class="purple-color">404</h1>
     <h2 class="purple-color">Page Not Found!</h2>
-    <a class="green-back green-border">Go Back to Home</a>
+    <router-link class="green-back green-border" to="/">Go Back to Home</router-link>
   </div>
 </template>
 

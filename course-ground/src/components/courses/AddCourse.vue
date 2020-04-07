@@ -95,4 +95,21 @@ export default {
   .uploaded-image {
     max-width: 100%;
   }
+  
+  .field-holder button {
+    background: #00cd8c;
+    color: #FFF;
+    font-family: 'Russo One';
+    font-size: 16px;
+    padding: 10px 20px;
+    border: 2px solid #00cd8c;
+    border-radius: 40px;
+    cursor: pointer;
+    outline: none !important;
+  }
+
+  .field-holder button:hover {
+    background: transparent;
+    color: #00cd8c;
+  }
 </style>
